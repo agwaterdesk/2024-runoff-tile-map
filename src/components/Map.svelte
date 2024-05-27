@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import mapboxgl from "mapbox-gl";
   import "mapbox-gl/dist/mapbox-gl.css";
-  import bbox from "@turf/bbox"
+  import bbox from "@turf/bbox";
   import Wherewolf from "wherewolf";
 
   import * as topojson from "topojson-client";
@@ -15,7 +15,6 @@
   export let overlayInfo = undefined;
   export let marker;
 
-  
   let map;
 
   var states = topojson.feature(topo, topo.objects.State);
@@ -23,9 +22,8 @@
   var teenWolf = Wherewolf();
   teenWolf.addAll(topo);
 
-  let bounds = bbox(states)
+  let bounds = bbox(states);
 
-  
   mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
   onMount(() => {
@@ -43,7 +41,7 @@
       countries: "us",
       placeholder: "Zoom to location",
       marker: false,
-      bbox: bounds
+      bbox: bounds,
     });
 
     map.addControl(geocoder, "top-left");
@@ -55,8 +53,6 @@
     }
 
     map.on("load", () => {
-
-
       // Add the GeoJSON data as a new source
       map.addSource("states", {
         type: "geojson",
@@ -110,7 +106,6 @@
 </script>
 
 <div>
-  
   <div id="map"></div>
 </div>
 
@@ -118,15 +113,9 @@
   #map {
     width: 100%;
     height: 800px;
-  }
 
-  .controls {
-    display: flex;
-    align-items: start;
-    gap: 2rem;
-    margin-bottom: 1rem;
-
-    .toggle {
+    @include mq(600px, "max-width") {
+      height: 600px;
     }
   }
 
@@ -167,7 +156,7 @@
   :global {
     .mapboxgl-ctrl-geocoder {
       border-radius: 4px;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 
       .mapboxgl-ctrl-geocoder--input {
         font-family: var(--font-sans);
