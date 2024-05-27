@@ -11,33 +11,34 @@
   });
 
   let overlayInfo;
+  let marker = null;
+
+  function reset() {
+    overlayInfo = undefined;
+    marker.remove();
+  }
 </script>
 
 <Window />
 <!-- Outer div must have class 'chart-container' don't change -->
 <div class="chart-container">
   <h1 class="headline">
-    Most sewage sludge from wastewater treatment plants is applied to land
+    Mapping likely subsurface drainage in Midwest agriculture
   </h1>
   <p class="dek">
-    More than half of all sewage sludge generated at wastewater treatment
-    plants, sometimes called biosolids, is spread on land as fertilizer. Most of
-    the rest is buried in landfills or burned in incinerators. Sludge can also
-    pose environmental risks, including PFAS contamination. The U.S.
-    Environmental Protection Agency collects annual reports from roughly 2,500
-    larger facilities that generate sewage sludge. For more information on the
-    facilities and states included in the EPA's ECHO database, please visit the
-    <a
-      target="_blank"
-      href="https://www.epa.gov/biosolids/basic-information-about-biosolids#basics"
-      >EPA's website</a
-    >.
+    The map shows agricultural areas in the Midwest that are likely to have been
+    drained for crop production, usually through subsurface tile drainage. Soils
+    are classified as
+    <span class="highlight likely">likely</span>,
+    <span class="highlight potentially">potentially</span>
+    or <span class="highlight unlikely">unlikely</span> to be drained based on their
+    natural drainage conditions and the necessity for artificial drainage in agriculture.
   </p>
-  <p class="sr-only">[altText]</p>
+  <!-- <p class="sr-only">[altText]</p> -->
 
   <div id="g-viz">
-    <Overlay {overlayInfo} />
-    <Map bind:overlayInfo />
+    <Overlay {overlayInfo} {reset} />
+    <Map bind:overlayInfo bind:marker />
   </div>
 </div>
 
@@ -51,5 +52,43 @@
   #g-viz {
     position: relative;
     overflow: hidden;
+  }
+
+  .highlight {
+    $size: 12px;
+    margin-left: calc($size + 4px);
+    position: relative;
+
+    &::after {
+      width: $size;
+      height: $size;
+      content: "";
+      border: 1px;
+      position: absolute;
+      left: calc($size * -1 - 2px);
+      top: 50%;
+      transform: translateY(-50%);
+      border: 1px solid;
+      border-radius: 100%;
+    }
+
+    &.unlikely {
+      &::after {
+        background: #fff;
+        border-color: #999;
+      }
+    }
+    &.potentially {
+      &::after {
+        background: #dda3fa;
+        border-color: #dda3fa;
+      }
+    }
+    &.likely {
+      &::after {
+        background: #7fb6d9;
+        border-color: #7fb6d9;
+      }
+    }
   }
 </style>

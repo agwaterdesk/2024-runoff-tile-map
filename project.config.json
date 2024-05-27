@@ -1,11 +1,11 @@
 {
   "project": {
-    "name": "[insert name]",
-    "slug": "[insert slug]"
+    "name": "2024-runoff-tile-map",
+    "slug": "2024-runoff-tile-map"
   },
   "s3": {
     "bucket": "",
-    "folder": "[insert slug]"
+    "folder": "2024-runoff-tile-map"
   },
   "google": {
     "doc": [

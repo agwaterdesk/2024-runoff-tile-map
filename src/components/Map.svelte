@@ -2,34 +2,36 @@
   import { onMount } from "svelte";
   import mapboxgl from "mapbox-gl";
   import "mapbox-gl/dist/mapbox-gl.css";
-  import { extent } from "d3-array";
-  import { scaleSqrt } from "d3-scale";
+  import bbox from "@turf/bbox"
   import Wherewolf from "wherewolf";
-  import Legend from "./Legend.svelte";
+
+  import * as topojson from "topojson-client";
 
   import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
   import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
   import topo from "../data/topo.json";
 
-  export let overlayInfo;
+  export let overlayInfo = undefined;
+  export let marker;
 
+  
   let map;
-  let marker = null;
+
+  var states = topojson.feature(topo, topo.objects.State);
 
   var teenWolf = Wherewolf();
   teenWolf.addAll(topo);
 
-  let bounds = [
-    [-99.62083, 35.26577], // southwest corner
-    [-77.89919, 49.05199], // northeast corner
-  ];
+  let bounds = bbox(states)
+
+  
   mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
   onMount(() => {
     map = new mapboxgl.Map({
       container: "map",
-      style: "mapbox://styles/agwaterdesk/clweai28a020601qgfxih2hj2/draft",
+      style: "mapbox://styles/agwaterdesk/clwp3ilyt00ki01qe6skw05px",
     });
 
     map.fitBounds(bounds, { duration: 0 });
@@ -41,7 +43,7 @@
       countries: "us",
       placeholder: "Zoom to location",
       marker: false,
-      bbox: bounds.flat(),
+      bbox: bounds
     });
 
     map.addControl(geocoder, "top-left");
@@ -53,7 +55,24 @@
     }
 
     map.on("load", () => {
-      // Assuming the raster source is already in your style
+
+
+      // Add the GeoJSON data as a new source
+      map.addSource("states", {
+        type: "geojson",
+        data: states,
+      });
+
+      // Add a layer to visualize the states
+      map.addLayer({
+        id: "states-layer",
+        type: "line",
+        source: "states",
+        paint: {
+          "line-color": "#333", // Black color
+          "line-width": 0.5, // 1px stroke
+        },
+      });
 
       map.on("click", (e) => {
         let { lng, lat } = e.lngLat;
@@ -91,14 +110,7 @@
 </script>
 
 <div>
-  <div class="controls">
-    <div class="toggle">
-      <span class="dek">Size waste water treatment plants by</span>
-    </div>
-  </div>
-
-  <!-- <div bind:this={geocoderContainer} class="geocoder" /> -->
-
+  
   <div id="map"></div>
 </div>
 
@@ -154,8 +166,8 @@
 
   :global {
     .mapboxgl-ctrl-geocoder {
-      box-shadow: none;
-      border: 1px solid #666;
+      border-radius: 4px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 
       .mapboxgl-ctrl-geocoder--input {
         font-family: var(--font-sans);

@@ -1,8 +1,9 @@
 <script>
   import { slide } from "svelte/transition";
-  export let overlayInfo;
+  import { X } from "lucide-svelte";
 
-  $: console.log(overlayInfo);
+  export let overlayInfo;
+  export let reset;
 
   let levels = ["Watershed", "County", "State"];
 
@@ -20,13 +21,16 @@
     } else if (number >= 1e3) {
       return (number / 1e3).toFixed(1).replace(/\.0$/, "") + "k";
     } else {
-      return number.toString();
+      return number.toFixed(1).toString();
     }
   }
 </script>
 
 {#if overlayInfo && overlayInfo}
   <div id="g-overlay" transition:slide={{ axis: "y" }}>
+    <div class="g-close" on:click={reset}>
+      <X color="#666" />
+    </div>
     <h2>Likely drained agricultural lands by watershed, county and state</h2>
     <div class="table-container">
       <!-- Header -->
@@ -78,7 +82,7 @@
       <div class="table-section">
         <div class="table-row">
           <div class="table-cell section-heading" colspan="4">
-            Percentage of feature
+            Percentage of total area
           </div>
         </div>
 
@@ -148,15 +152,28 @@
 <style lang="scss">
   #g-overlay {
     z-index: 1000;
-    background: #fff;
+    background: #ffffff;
     padding: 1rem;
     margin: 0.5rem;
     width: calc(100% - 1rem);
+    position: relative;
+
+    .g-close {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      opacity: 0.5;
+      cursor: pointer;
+      &:hover {
+        opacity: 1;
+      }
+    }
 
     h2 {
       @include font-size(16px);
       font-weight: bold;
       margin-bottom: 1rem;
+      width: calc(100% - 2rem);
     }
 
     @include mq(600px, "max-width") {
@@ -166,7 +183,7 @@
     border-radius: 4px 4px 0px 0px;
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
     position: absolute;
-    bottom: -0.5rem;
+    bottom: -3px;
     @include font-size(14px);
 
     .table-container {
