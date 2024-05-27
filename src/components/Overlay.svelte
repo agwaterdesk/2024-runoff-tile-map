@@ -38,14 +38,14 @@
         <!-- Header -->
 
         <div class="table-subheader">
-          <div class="table-cell label"></div>
+          <div class="table-cell cell-label"></div>
           {#each levels as level}
             <div class="table-cell">{level}</div>
           {/each}
         </div>
 
         <div class="table-header">
-          <div class="table-cell label"></div>
+          <div class="table-cell cell-label"></div>
           {#each levels as level}
             {@const obj = overlayInfo[level]}
             <div class="table-cell">{obj[levelNameDict[level]]}</div>
@@ -61,7 +61,7 @@
           </div>
 
           <div class="table-row">
-            <div class="table-cell label">Likely</div>
+            <div class="table-cell cell-label"><span class="highlight likely">Likely</span></div>
             {#each levels as level}
               {@const obj = overlayInfo[level]}
               <div class="table-cell">
@@ -70,7 +70,7 @@
             {/each}
           </div>
           <div class="table-row">
-            <div class="table-cell label">Likely or potentially</div>
+            <div class="table-cell cell-label"><span class="highlight likely">Likely</span> or <span class="highlight potentially">potentially</span></div>
             {#each levels as level}
               {@const obj = overlayInfo[level]}
               <div class="table-cell">
@@ -89,7 +89,7 @@
           </div>
 
           <div class="table-row">
-            <div class="table-cell label">Likely</div>
+            <div class="table-cell cell-label"><span class="highlight likely">Likely</span></div>
             {#each levels as level}
               {@const obj = overlayInfo[level]}
               <div class="table-cell">
@@ -98,7 +98,7 @@
             {/each}
           </div>
           <div class="table-row">
-            <div class="table-cell label">Likely or potentially</div>
+            <div class="table-cell cell-label"><span class="highlight likely">Likely</span> or <span class="highlight potentially">potentially</span></div>
             {#each levels as level}
               {@const obj = overlayInfo[level]}
               <div class="table-cell">
@@ -117,7 +117,7 @@
           </div>
 
           <div class="table-row">
-            <div class="table-cell label">Likely</div>
+            <div class="table-cell cell-label"><span class="highlight likely">Likely</span></div>
             {#each levels as level}
               {@const obj = overlayInfo[level]}
               <div class="table-cell">
@@ -132,7 +132,7 @@
             {/each}
           </div>
           <div class="table-row">
-            <div class="table-cell label">Likely or potentially</div>
+            <div class="table-cell cell-label"><span class="highlight likely">Likely</span> or <span class="highlight potentially">potentially</span></div>
             {#each levels as level}
               {@const obj = overlayInfo[level]}
               <div class="table-cell">
@@ -238,9 +238,10 @@
           // @include font-size(14px);
         }
 
-        &.label {
+        &.cell-label {
           min-width: 180px;
           text-align: left;
+
         }
         min-width: calc((100% / 3) - 180px);
       }

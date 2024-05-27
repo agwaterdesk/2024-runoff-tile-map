@@ -49,45 +49,52 @@
     padding: 1rem;
   }
 
+  :root {
+    --color-likely: #7fb6d9;
+    --color-potentially: #dda3fa;
+  }
+
   #g-viz {
     position: relative;
     overflow: hidden;
   }
 
-  .highlight {
-    $size: 12px;
-    margin-left: calc($size + 4px);
-    position: relative;
+  :global {
+    .highlight {
+      $size: 12px;
+      margin-left: calc($size + 4px);
+      position: relative;
 
-    &::after {
-      width: $size;
-      height: $size;
-      content: "";
-      border: 1px;
-      position: absolute;
-      left: calc($size * -1 - 2px);
-      top: 50%;
-      transform: translateY(-50%);
-      border: 1px solid;
-      border-radius: 100%;
-    }
+      &::after {
+        width: $size;
+        height: $size;
+        content: "";
+        border: 1px;
+        position: absolute;
+        left: calc($size * -1 - 2px);
+        top: 50%;
+        transform: translateY(-50%);
+        border: 1px solid;
+        border-radius: 100%;
+      }
 
-    &.unlikely {
-      &::after {
-        background: #fff;
-        border-color: #999;
+      &.unlikely {
+        &::after {
+          background: #fff;
+          border-color: #999;
+        }
       }
-    }
-    &.potentially {
-      &::after {
-        background: #dda3fa;
-        border-color: #dda3fa;
+      &.potentially {
+        &::after {
+          background: var(--color-potentially);
+          border-color: var(--color-potentially);
+        }
       }
-    }
-    &.likely {
-      &::after {
-        background: #7fb6d9;
-        border-color: #7fb6d9;
+      &.likely {
+        &::after {
+          background: var(--color-likely);
+          border-color: var(--color-likely);
+        }
       }
     }
   }
