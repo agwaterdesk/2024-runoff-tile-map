@@ -2,6 +2,7 @@
   import Window from "./components/Window.svelte";
   import Map from "./components/Map.svelte";
   import Overlay from "./components/Overlay.svelte";
+  import { MousePointer } from "lucide-svelte";
 
   // Handle responsive iframes for embeds
   import pym from "pym.js";
@@ -9,6 +10,13 @@
   new pym.Child({
     polling: 500,
   });
+
+  function getUrlParameter(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+  }
+
+  let includeCredit = getUrlParameter("credit") != "false";
 
   let overlayInfo;
   let marker = null;
@@ -22,24 +30,47 @@
 <Window />
 <!-- Outer div must have class 'chart-container' don't change -->
 <div class="chart-container">
-  <h1 class="headline">
-    Mapping likely subsurface drainage in Midwest agriculture
-  </h1>
+  <h1 class="headline">Subsurface drainage pervades Midwest agriculture</h1>
   <p class="dek">
     The map shows agricultural areas in the Midwest that are likely to have been
-    drained for crop production, usually through subsurface tile drainage. Soils
-    are classified as
-    <span class="highlight likely">likely</span>,
+    drained for crop production, usually through subsurface tile drainage,
+    according to a <a
+      href="https://transformingdrainage.org/tools/drained-area-tool/"
+      target="_blank">2022 study</a
+    >. Soils are classified as <span class="highlight likely">likely</span>,
     <span class="highlight potentially">potentially</span>
-    or <span class="highlight unlikely">unlikely</span> to be drained based on their
-    natural drainage conditions and the necessity for artificial drainage in agriculture.
+    or <span class="highlight unlikely">unlikely</span> to be drained based on
+    their natural drainage conditions and the likelihood of having artificial
+    drainage to support agriculture.
+    <span class="hide-in-static"
+      ><MousePointer size="14" />Click on a location to see drainage details by
+      watershed, county and state.</span
+    >
   </p>
-  <!-- <p class="sr-only">[altText]</p> -->
+
+  <p class="sr-only">
+    The map shows agricultural areas in the Midwest that are likely to
+    have been drained for crop production, typically using subsurface tile
+    drainage. It is based on a 2022 study and classifies soils into three
+    categories: likely to be drained (blue), potentially drained (purple), and
+    unlikely to be drained (white).
+  </p>
 
   <div id="g-viz">
     <Overlay {overlayInfo} {reset} />
     <Map bind:overlayInfo bind:marker />
   </div>
+
+  {#if includeCredit}
+    <div class="credit">
+      Data: <a
+        target="_blank"
+        href="https://purr.purdue.edu/publications/3966/1"
+        >Purdue University Research Repository</a
+      >; Graphic by Jared Whalen /
+      <a target="_blank" href="https://agwaterdesk.org/">Ag & Water Desk</a>
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">

@@ -48,6 +48,13 @@
 
     map.addControl(new mapboxgl.NavigationControl());
 
+    // Add hide-in-static class to controls
+    document
+      .querySelector(".mapboxgl-control-container")
+      .classList.add("hide-in-static");
+
+
+
     function getTopoData(coords) {
       return teenWolf.find(coords);
     }
@@ -101,8 +108,6 @@
       });
     });
   });
-
-  function updateMap() {}
 </script>
 
 <div>

@@ -1,6 +1,6 @@
 @use "../abstracts" as *;
 
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&display=swap");
 
 /* Chart title */
 .headline {
@@ -19,6 +19,23 @@
   line-height: 1.5;
   color: $color-body-text-light;
   margin-bottom: rems(20);
+  a {
+    color: $color-body-text-light;
+  }
+}
+
+.credit {
+  font-family: var(--font-sans);
+  @include font-size(12px);
+  line-height: 1.5;
+  color: $color-body-text-light;
+  margin-top: rems(5);
+  margin-bottom: rems(20);
+  text-align: right;
+
+  a {
+    color: $color-body-text-light;
+  }
 }
 
 /*=============================================
